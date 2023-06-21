@@ -1,0 +1,48 @@
+* Settings.py
+
+import os
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = 'static/'
+
+STATIC_URL = 'static/'
+STATIC_ROOT= os.path.join(BASE_DIR,'staticfiles')
+
+STATICFILES_DIR = {
+    os.path.join(BASE_DIR, 'public/static')
+}
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'public/static')
+MEDIA_URL = '/media/'
+
+
+
+
+* urls.py
+
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    
+urlpatterns += staticfiles_urlpatterns()
+
+
+
+*models.py
+
+class Student(models.Model):
+    photo = models.ImageField(upload_to="profile")
+
+* To access image file: 
+index.html
+
+'/media/{{Student.photo}}     # here Student is the model class and photo is it's attribute
